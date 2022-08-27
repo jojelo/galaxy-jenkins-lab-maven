@@ -7,9 +7,9 @@ pipeline {
 
     stages {
          stage('Building') {
-            when {
-                branch "main"
-            }
+            // when {
+            //     branch "main"
+            // }
             steps {
                 script {
                      sh 'mvn verify'
