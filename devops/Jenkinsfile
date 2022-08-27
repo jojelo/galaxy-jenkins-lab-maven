@@ -7,9 +7,9 @@ pipeline {
 
     stages {
         stage('Building') {
-            // when {
-            //     branch "master"
-            // }
+            when {
+                branch "master"
+            }
             steps {
                 script {
                      sh 'mvn verify'
@@ -28,10 +28,9 @@ pipeline {
         }
 
         stage('Dockering') {
-
-                //  when {
-                //      branch "master"
-                //  }
+             when {
+                 branch "master"
+             }
             steps {
                 script {
                     copyArtifacts filter: 'target/*.jar',
@@ -47,21 +46,20 @@ pipeline {
             }
         }
 
-          stage('Tagging') {
-            //    when {
-            //        branch "master"
-            //    }
-            //prueba
-               environment {
-                   DOCKER_CREDS = credentials('docker-credentials-taller')
-               }
-                steps {
-                     script {
-                        sh 'docker login -u ${DOCKER_CREDS_USR} -p ${DOCKER_CREDS_PSW}'
-                        sh 'docker tag mstallervamen ${DOCKER_CREDS_USR}/mstallervamen:$BUILD_NUMBER'
-                        sh 'docker push ${DOCKER_CREDS_USR}/mstallervamen:$BUILD_NUMBER'
-                     }
+        stage('Tagging') {
+            when {
+             branch "master"
+            }
+            environment {
+                DOCKER_CREDS = credentials('docker-credentials-taller')
+            }
+            steps {
+                script {
+                    sh 'docker login -u ${DOCKER_CREDS_USR} -p ${DOCKER_CREDS_PSW}'
+                    sh 'docker tag mstallervamen ${DOCKER_CREDS_USR}/mstallervamen:$BUILD_NUMBER'
+                    sh 'docker push ${DOCKER_CREDS_USR}/mstallervamen:$BUILD_NUMBER'
                 }
-          }
+            }
+        }
     }
 }
