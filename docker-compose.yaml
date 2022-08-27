@@ -1,9 +1,9 @@
 version: '3.8'
 services:
-  microservice:
-    image: msmicroservice
+  tallermaven:
+    image: mstallervamen
     build:
       context: .
       dockerfile: ./src/main/docker/Dockerfile
     ports:
-      - 8080:8080
+      - 8070:8080

@@ -7,9 +7,9 @@ pipeline {
 
     stages {
          stage('Building') {
-            when {
-                branch "/main"
-            }
+            // when {
+            //     branch "master"
+            // }
             steps {
                 script {
                      sh 'mvn verify'
@@ -27,24 +27,24 @@ pipeline {
             }
          }
 
-        //  stage('Dockering') {
-        //          when {
-        //              branch "master"
-        //          }
-        //         steps {
-        //             script {
-        //                 copyArtifacts filter: 'target/*.jar',
-        //                               fingerprintArtifacts: true,
-        //                               projectName: '${JOB_NAME}',
-        //                               flatten: true,
-        //                               selector: specific('${BUILD_NUMBER}'),
-        //                               target: 'target';
-        //                 sh 'docker --version'
-        //                 sh 'docker-compose --version'
-        //                 sh 'docker-compose build'
-        //             }
-        //       }
-        //  }
+         stage('Dockering') {
+                //  when {
+                //      branch "master"
+                //  }
+                steps {
+                    script {
+                        copyArtifacts filter: 'target/*.jar',
+                                      fingerprintArtifacts: true,
+                                      projectName: '${JOB_NAME}',
+                                      flatten: true,
+                                      selector: specific('${BUILD_NUMBER}'),
+                                      target: 'target';
+                        sh 'docker --version'
+                        sh 'docker-compose --version'
+                        sh 'docker-compose build'
+                    }
+              }
+         }
 
         //   stage('Tagging') {
         //        when {
