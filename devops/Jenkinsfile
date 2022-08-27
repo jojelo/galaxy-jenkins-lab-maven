@@ -37,7 +37,7 @@ pipeline {
                                       fingerprintArtifacts: true,
                                       projectName: '${JOB_NAME}',
                                       flatten: true,
-                                      selector: specific('${BUILD_NUMBER}'),
+                                      //selector: specific('${BUILD_NUMBER}'),
                                       target: 'target';
                         sh 'docker --version'
                         sh 'docker-compose --version'
