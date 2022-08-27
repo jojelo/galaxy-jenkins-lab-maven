@@ -46,20 +46,20 @@ pipeline {
               }
          }
 
-        //   stage('Tagging') {
-        //        when {
-        //            branch "master"
-        //        }
-        //        environment {
-        //            DOCKER_CREDS = credentials('docker-credentials')
-        //        }
-        //         steps {
-        //              script {
-        //                 sh 'docker login -u ${DOCKER_CREDS_USR} -p ${DOCKER_CREDS_PSW}'
-        //                 sh 'docker tag msmicroservice ${DOCKER_CREDS_USR}/msmicroservice:$BUILD_NUMBER'
-        //                 sh 'docker push ${DOCKER_CREDS_USR}/msmicroservice:$BUILD_NUMBER'
-        //              }
-        //         }
-        //   }
+          stage('Tagging') {
+               when {
+                   branch "master"
+               }
+               environment {
+                   DOCKER_CREDS = credentials('docker-credentials-taller')
+               }
+                steps {
+                     script {
+                        sh 'docker login -u ${DOCKER_CREDS_USR} -p ${DOCKER_CREDS_PSW}'
+                        sh 'docker tag mstallervamen ${DOCKER_CREDS_USR}/mstallervamen:$BUILD_NUMBER'
+                        sh 'docker push ${DOCKER_CREDS_USR}/mstallervamen:$BUILD_NUMBER'
+                     }
+                }
+          }
     }
 }
