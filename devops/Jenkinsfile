@@ -47,9 +47,9 @@ pipeline {
          }
 
           stage('Tagging') {
-               when {
-                   branch "master"
-               }
+            //    when {
+            //        branch "master"
+            //    }
                environment {
                    DOCKER_CREDS = credentials('docker-credentials-taller')
                }
