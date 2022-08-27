@@ -6,7 +6,7 @@ pipeline {
      }
 
     stages {
-         stage('Building') {
+        stage('Building') {
             // when {
             //     branch "master"
             // }
@@ -25,31 +25,33 @@ pipeline {
                     archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false, onlyIfSuccessful: true
                 }
             }
-         }
+        }
 
-         stage('Dockering') {
+        stage('Dockering') {
+
                 //  when {
                 //      branch "master"
                 //  }
-                steps {
-                    script {
-                        copyArtifacts filter: 'target/*.jar',
-                                      fingerprintArtifacts: true,
-                                      projectName: '${JOB_NAME}',
-                                      flatten: true,
-                                      selector: specific('${BUILD_NUMBER}'),
-                                      target: 'target';
-                        sh 'docker --version'
-                        sh 'docker-compose --version'
-                        sh 'docker-compose build'
-                    }
-              }
-         }
+            steps {
+                script {
+                    copyArtifacts filter: 'target/*.jar',
+                                    fingerprintArtifacts: true,
+                                    projectName: '${JOB_NAME}',
+                                    flatten: true,
+                                    selector: specific('${BUILD_NUMBER}'),
+                                    target: 'target';
+                    sh 'docker --version'
+                    sh 'docker-compose --version'
+                    sh 'docker-compose build'
+                }
+            }
+        }
 
           stage('Tagging') {
-               when {
-                   branch "master"
-               }
+            //    when {
+            //        branch "master"
+            //    }
+            //prueba
                environment {
                    DOCKER_CREDS = credentials('docker-credentials-taller')
                }
@@ -60,6 +62,6 @@ pipeline {
                         sh 'docker push ${DOCKER_CREDS_USR}/mstallervamen:$BUILD_NUMBER'
                      }
                 }
-          }
+         }
     }
 }
